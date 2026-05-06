@@ -107,6 +107,21 @@ export default function Memories() {
 
   return (
     <section id="memories" style={{ background: '#EDEAE4', position: 'relative', overflow: 'hidden', padding: 0, minHeight: '520px', display: 'flex', alignItems: 'center', touchAction: 'none' }}>
+      <style>{`
+        @keyframes wiggle {
+          0%, 100% { transform: rotate(-15deg); }
+          50% { transform: rotate(15deg); }
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.15; }
+        }
+        @keyframes float-badge {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-4px); }
+        }
+      `}</style>
+
       <div
         ref={containerRef}
         style={{ position: 'relative', width: '100%', maxWidth: '1400px', margin: '0 auto', padding: '80px 6% 90px', minHeight: '520px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -116,9 +131,9 @@ export default function Memories() {
       >
         <div id="trail-layer" ref={layerRef} />
 
-        {/* Hint */}
+        {/* Bottom hint (legacy, hidden after first move) */}
         {!hintHidden && (
-          <div className="hint-pulse" style={{
+          <div style={{
             position: 'absolute', bottom: '1.5rem', left: '6%',
             display: 'flex', alignItems: 'center', gap: '0.5rem',
             fontSize: '0.72rem', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase',
@@ -129,7 +144,7 @@ export default function Memories() {
           </div>
         )}
 
-        {/* Title */}
+        {/* Title block */}
         <div style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 'clamp(4rem, 13vw, 12rem)', fontWeight: 900,
@@ -137,13 +152,61 @@ export default function Memories() {
           opacity: 0.88, userSelect: 'none', position: 'relative', zIndex: 1,
           textAlign: 'center', pointerEvents: 'none',
         }}>
+          {/* Eyebrow */}
           <span style={{
             display: 'block', fontSize: 'clamp(0.75rem, 2vw, 1.4rem)',
             fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
             letterSpacing: '4px', textTransform: 'uppercase', color: 'var(--terra)',
             marginBottom: '1rem', textAlign: 'center',
           }}>Your Journey</span>
+
           Memories
+
+          {/* ── Interactive instruction badge ── */}
+          <div style={{
+            marginTop: '2rem',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.7rem',
+              background: 'rgba(255,255,255,0.55)',
+              backdropFilter: 'blur(10px)',
+              border: '1.5px solid rgba(196,97,42,0.3)',
+              borderRadius: '60px',
+              padding: '0.65rem 1.4rem',
+              boxShadow: '0 4px 24px rgba(26,18,8,0.08)',
+              animation: 'float-badge 3s ease-in-out infinite',
+            }}>
+              {/* Hand icon */}
+              <span style={{
+                fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
+                display: 'inline-block',
+                animation: 'wiggle 1.6s ease-in-out infinite',
+                transformOrigin: 'bottom center',
+              }}>🖐️</span>
+
+              {/* Text */}
+              <span style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 'clamp(0.4rem, 1vw, 0.7rem)',
+                fontWeight: 700,
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                color: 'var(--terra, #c4612a)',
+              }}>
+                Hover here &nbsp;·&nbsp; Swipe on mobile
+              </span>
+
+              {/* Live dot */}
+              <span style={{
+                width: '7px', height: '7px', borderRadius: '50%',
+                background: 'var(--terra, #c4612a)',
+                display: 'inline-block',
+                flexShrink: 0,
+                animation: 'blink 1.3s ease-in-out infinite',
+              }} />
+            </div>
+          </div>
         </div>
       </div>
     </section>
