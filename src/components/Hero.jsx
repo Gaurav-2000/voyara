@@ -3,7 +3,7 @@ import React from 'react'
 export default function Hero({ showToast }) {
   return (
     <section id="home" style={{
-      minHeight: '100vh', paddingTop: '64px',
+      height: '100vh', paddingTop: '64px',
       display: 'flex', alignItems: 'center',
       position: 'relative', overflow: 'hidden',
     }}>
@@ -26,7 +26,7 @@ export default function Hero({ showToast }) {
 
       <div style={{
         position: 'relative', zIndex: 1,
-        padding: '3rem 5% 4rem', maxWidth: '1200px', margin: '0 auto', width: '100%',
+        padding: '0 5%', maxWidth: '1200px', margin: '0 auto', width: '100%',
         display: 'grid', gridTemplateColumns: '1fr 1fr',
         alignItems: 'center', gap: '4rem',
       }}
@@ -36,26 +36,26 @@ export default function Hero({ showToast }) {
         <div className="hero-text-block" style={{ order: 0 }}>
           <span style={{
             display: 'inline-block', fontSize: '0.8rem', fontWeight: 600,
-            letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--terra)', marginBottom: '1.2rem',
+            letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--terra)', marginBottom: '0.75rem',
           }}>✈ Trusted by 50,000+ Indian Travelers</span>
 
           <h1 style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', fontWeight: 900,
-            lineHeight: 1.08, color: 'var(--dark)', marginBottom: '1.5rem',
+            fontSize: 'clamp(2.2rem, 4.5vw, 4.2rem)', fontWeight: 900,
+            lineHeight: 1.08, color: 'var(--dark)', marginBottom: '1rem',
           }}>
             Travel, <em style={{ color: 'var(--terra)', fontStyle: 'italic' }}>Enjoy</em><br />
             Live a New &amp;<br />Full Life
           </h1>
 
-          <p style={{ color: 'var(--muted)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: '440px', marginBottom: '2rem' }}>
+          <p style={{ color: 'var(--muted)', fontSize: '1rem', lineHeight: 1.6, maxWidth: '440px', marginBottom: '1.25rem' }}>
             Plan your dream trip from India — honeymoons, family vacations, solo adventures. Everything managed for you, from flights to experiences.
           </p>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}
             className="hero-btn-group">
             <a href="#destinations" style={{
-              background: 'var(--terra)', color: 'white', padding: '0.9rem 2rem', borderRadius: '50px',
+              background: 'var(--terra)', color: 'white', padding: '0.85rem 2rem', borderRadius: '50px',
               fontSize: '1rem', fontWeight: 600, textDecoration: 'none', display: 'inline-block',
               transition: 'all 0.3s',
             }}
@@ -63,7 +63,7 @@ export default function Hero({ showToast }) {
               onMouseLeave={e => { e.target.style.background = 'var(--terra)'; e.target.style.transform = ''; e.target.style.boxShadow = '' }}
             >Start Your Journey</a>
             <a href="#book" style={{
-              background: 'transparent', color: 'var(--dark)', padding: '0.9rem 2rem', borderRadius: '50px',
+              background: 'transparent', color: 'var(--dark)', padding: '0.85rem 2rem', borderRadius: '50px',
               fontSize: '1rem', fontWeight: 600, textDecoration: 'none', border: '2px solid var(--dark)',
               display: 'inline-block', transition: 'all 0.3s',
             }}
@@ -72,7 +72,7 @@ export default function Hero({ showToast }) {
             >How It Works</a>
           </div>
 
-          <div style={{ fontSize: '0.78rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}
+          <div style={{ fontSize: '0.78rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}
             className="hero-trust-badges">
             {['Free cancellation', 'No hidden charges', '24/7 support'].map(t => (
               <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
@@ -82,7 +82,7 @@ export default function Hero({ showToast }) {
             ))}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginTop: '2.5rem', flexWrap: 'wrap' }}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 0, flexWrap: 'wrap' }}
             className="hero-stats-row">
             {[['800', '+', 'Destinations'], ['50K', '+', 'Happy Travelers'], ['4.8', '★', 'Avg Rating']].map(([n, s, l]) => (
               <div key={l} style={{ paddingRight: '1.5rem', marginRight: '1.5rem', borderRight: '1px solid rgba(26,18,8,0.12)' }}
@@ -90,13 +90,13 @@ export default function Hero({ showToast }) {
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.9rem', fontWeight: 700, color: 'var(--dark)', lineHeight: 1 }}>
                   {n}<span style={{ color: 'var(--terra)' }}>{s}</span>
                 </div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--muted)', marginTop: '5px', fontWeight: 500 }}>{l}</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--muted)', marginTop: '4px', fontWeight: 500 }}>{l}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Hero Image - NO card block, just image + badges */}
+        {/* Hero Image */}
         <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           className="hero-image-block">
           <img
@@ -139,27 +139,26 @@ export default function Hero({ showToast }) {
           .hero-content-grid {
             grid-template-columns: 1fr !important;
             text-align: center;
-            padding: 2rem 5% 4rem !important;
-            gap: 1.5rem !important;
+            padding: 0 6% !important;
+            gap: 0.5rem !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
           }
-          .hero-image-block { order: -1 !important; }
-          .hero-main-img { max-width: 220px !important; }
+          .hero-image-block { display: none !important; }
           .hero-text-block p,
           .hero-trust-badges,
           .hero-stats-row { margin-left: auto !important; margin-right: auto !important; }
-          .hero-badge-1, .hero-badge-2 { display: none !important; }
 
-          /* Center buttons */
           .hero-btn-group {
             justify-content: center !important;
           }
 
-          /* Center trust badges */
           .hero-trust-badges {
             justify-content: center !important;
           }
 
-          /* Stats: keep all 3 on one line */
           .hero-stats-row {
             flex-wrap: nowrap !important;
             justify-content: center !important;
@@ -168,15 +167,18 @@ export default function Hero({ showToast }) {
           .hero-stat-item {
             flex: 1 1 0 !important;
             min-width: 0 !important;
-            padding-right: 1rem !important;
-            margin-right: 1rem !important;
+            padding-right: 1.25rem !important;
+            margin-right: 1.25rem !important;
+          }
+          .hero-stat-item > div:first-child {
+            font-size: 2rem !important;
+          }
+          .hero-stat-item > div:last-child {
+            font-size: 0.8rem !important;
           }
         }
 
         @media (max-width: 640px) {
-          .hero-main-img { max-width: 180px !important; }
-
-          /* Buttons: stack vertically, full width */
           .hero-btn-group {
             flex-direction: column !important;
             align-items: stretch !important;
@@ -187,7 +189,6 @@ export default function Hero({ showToast }) {
             text-align: center !important;
           }
 
-          /* Stats: shrink font so all 3 fit in one row */
           .hero-stat-item > div:first-child {
             font-size: 1.35rem !important;
           }
@@ -201,7 +202,7 @@ export default function Hero({ showToast }) {
         }
 
         @media (max-width: 400px) {
-          .hero-main-img { max-width: 150px !important; }
+          .hero-main-img { max-width: 140px !important; }
 
           .hero-stat-item > div:first-child {
             font-size: 1.1rem !important;

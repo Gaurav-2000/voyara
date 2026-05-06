@@ -49,20 +49,33 @@ export default function SocialProof() {
   const ref = useRef(null)
 
   useEffect(() => {
-    const els = ref.current?.querySelectorAll('.fade-up')
-    if (!els) return
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) }
-      })
-    }, { threshold: 0.1 })
-    els.forEach(el => obs.observe(el))
+    const section = ref.current
+    if (!section) return
+
+    const header = section.querySelector('.header-block')
+    const photoItems = section.querySelectorAll('.photo-item')
+    const allEls = [header, ...photoItems].filter(Boolean)
+
+    const obs = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible')
+            obs.unobserve(e.target)
+          }
+        })
+      },
+      { threshold: 0.08 }
+    )
+
+    allEls.forEach(el => obs.observe(el))
     return () => obs.disconnect()
   }, [])
 
   return (
     <section id="social-proof" ref={ref} style={{ background: 'var(--cream)', padding: '90px 5%' }}>
-      <div className="fade-up" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+      {/* Header */}
+      <div className="fade-up header-block" style={{ textAlign: 'center', marginBottom: '4rem' }}>
         <div style={{
           fontSize: '0.78rem', fontWeight: 600, letterSpacing: '3px',
           textTransform: 'uppercase', color: 'var(--terra)', marginBottom: '0.75rem',
@@ -80,7 +93,7 @@ export default function SocialProof() {
 
       {/* Desktop grid */}
       <div
-        className="fade-up sp-desktop-grid"
+        className="sp-desktop-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(6, 1fr)',
@@ -93,7 +106,15 @@ export default function SocialProof() {
         {photos.map((p, i) => (
           <div
             key={i}
-            style={{ gridArea: p.gridArea, borderRadius: '16px', overflow: 'hidden', position: 'relative', cursor: 'pointer' }}
+            className="photo-item"
+            style={{
+              gridArea: p.gridArea,
+              borderRadius: '16px',
+              overflow: 'hidden',
+              position: 'relative',
+              cursor: 'pointer',
+              transitionDelay: `${0.25 + i * 0.09}s`,
+            }}
             onMouseEnter={e => {
               e.currentTarget.querySelector('img').style.transform = 'scale(1.08)'
               e.currentTarget.querySelector('.sp-overlay').style.opacity = '1'
@@ -126,6 +147,34 @@ export default function SocialProof() {
       </div>
 
       <style>{`
+        /* ── Fade-up: header ── */
+        .fade-up {
+          opacity: 0;
+          transform: translateY(32px);
+          transition: opacity 0.75s cubic-bezier(.22,1,.36,1),
+                      transform 0.75s cubic-bezier(.22,1,.36,1);
+        }
+        .fade-up.header-block {
+          transition-delay: 0.1s;
+        }
+        .fade-up.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* ── Photo items staggered entrance ── */
+        .photo-item {
+          opacity: 0;
+          transform: translateY(28px) scale(0.97);
+          transition: opacity 0.65s cubic-bezier(.22,1,.36,1),
+                      transform 0.65s cubic-bezier(.22,1,.36,1);
+        }
+        .photo-item.visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        /* ── Mobile ── */
         @media (max-width: 768px) {
           .sp-desktop-grid {
             grid-template-columns: repeat(2, 1fr) !important;

@@ -93,38 +93,54 @@ export default function Destinations({ showToast }) {
   const [wishlist, setWishlist] = useState({})
   const ref = useRef(null)
 
-  // Re-show cards immediately when filter changes
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const els = ref.current?.querySelectorAll('.dest-card-item')
-      if (!els) return
-      els.forEach(el => el.classList.add('visible'))
-    }, 30)
-    return () => clearTimeout(timer)
-  }, [filter])
-
-  // Initial scroll-based reveal for non-card elements
+  // Header: scroll-based reveal
   useEffect(() => {
     const els = ref.current?.querySelectorAll('.fade-up')
     if (!els) return
     const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } })
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) }
+      })
     }, { threshold: 0.08 })
     els.forEach(el => obs.observe(el))
     return () => obs.disconnect()
   }, [])
 
+  // Cards: reveal on mount + re-trigger on filter change with stagger
+  useEffect(() => {
+    const section = ref.current
+    if (!section) return
+
+    // Reset all cards to hidden first
+    const cards = section.querySelectorAll('.dest-card-item')
+    cards.forEach(el => el.classList.remove('visible'))
+
+    // Then stagger them in after a tiny frame
+    const timers = []
+    cards.forEach((el, i) => {
+      const t = setTimeout(() => el.classList.add('visible'), 60 + i * 90)
+      timers.push(t)
+    })
+    return () => timers.forEach(clearTimeout)
+  }, [filter])
+
   const visible = destinations.filter(d => {
     if (filter === 'all') return true
-    const cats = d.category.split(' ')
-    return cats.includes(filter)
+    return d.category.split(' ').includes(filter)
   })
 
   return (
     <section id="destinations" ref={ref} style={{ background: 'var(--cream)', padding: '90px 5%' }}>
+
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', maxWidth: '1200px', marginLeft: 'auto', marginRight: 'auto', gap: '1rem', flexWrap: 'wrap' }}
-        className="fade-up">
+      <div
+        className="fade-up header-block"
+        style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+          marginBottom: '3rem', maxWidth: '1200px', marginLeft: 'auto', marginRight: 'auto',
+          gap: '1rem', flexWrap: 'wrap',
+        }}
+      >
         <div>
           <div style={{ fontSize: '0.78rem', fontWeight: 600, letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--terra)', marginBottom: '0.75rem' }}>Top Selling</div>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, color: 'var(--dark)' }}>Top Destinations</h2>
@@ -154,7 +170,7 @@ export default function Destinations({ showToast }) {
         {visible.map((d, i) => (
           <a key={d.id}
             href="#"
-            className="dest-card-item fade-up"
+            className="dest-card-item"
             onClick={(e) => { e.preventDefault(); showToast(d.toast) }}
             style={{
               borderRadius: '24px', overflow: 'hidden', background: 'var(--white)',
@@ -163,34 +179,30 @@ export default function Destinations({ showToast }) {
               cursor: 'pointer', textDecoration: 'none', color: 'inherit', display: 'block',
               position: 'relative',
             }}
-            onMouseEnter={e => { e.currentTarget.style.transform='translateY(-8px)'; e.currentTarget.style.boxShadow='0 30px 80px rgba(26,18,8,0.18)' }}
-            onMouseLeave={e => { e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow='0 20px 60px rgba(26,18,8,0.10)' }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 30px 80px rgba(26,18,8,0.18)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 20px 60px rgba(26,18,8,0.10)' }}
           >
-            {/* Image wrapper with gradient overlay */}
+            {/* Image */}
             <div style={{ overflow: 'hidden', position: 'relative' }}>
               <img
                 src={d.img}
                 alt={d.name}
                 loading="lazy"
                 style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block', transition: 'transform 0.5s' }}
-                onMouseEnter={e => e.target.style.transform='scale(1.05)'}
-                onMouseLeave={e => e.target.style.transform=''}
+                onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
+                onMouseLeave={e => e.target.style.transform = ''}
               />
-              {/* Gradient overlay for depth */}
               <div style={{
                 position: 'absolute', inset: 0,
                 background: 'linear-gradient(180deg, transparent 40%, rgba(26,18,8,0.5) 100%)',
                 zIndex: 1,
               }} />
-              {/* Badge */}
               <span style={{
                 position: 'absolute', top: '12px', left: '12px', zIndex: 2,
-                background: badgeColors[d.badge.type],
-                backdropFilter: 'blur(8px)',
+                background: badgeColors[d.badge.type], backdropFilter: 'blur(8px)',
                 color: 'white', borderRadius: '50px', padding: '0.3rem 0.8rem',
                 fontSize: '0.72rem', fontWeight: 600,
               }}>{d.badge.label}</span>
-              {/* Wishlist */}
               <button
                 onClick={(e) => {
                   e.preventDefault(); e.stopPropagation()
@@ -230,6 +242,42 @@ export default function Destinations({ showToast }) {
           </a>
         ))}
       </div>
+
+      <style>{`
+        /* ── Header fade-up ── */
+        .fade-up {
+          opacity: 0;
+          transform: translateY(32px);
+          transition: opacity 0.75s cubic-bezier(.22,1,.36,1),
+                      transform 0.75s cubic-bezier(.22,1,.36,1);
+        }
+        .fade-up.header-block { transition-delay: 0.1s; }
+        .fade-up.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* ── Destination cards ── */
+        .dest-card-item {
+          opacity: 0;
+          transform: translateY(28px) scale(0.97);
+          transition: opacity 0.6s cubic-bezier(.22,1,.36,1),
+                      transform 0.6s cubic-bezier(.22,1,.36,1),
+                      box-shadow 0.3s,
+                      box-shadow 0.3s;
+        }
+        .dest-card-item.visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        /* ── Urgency pulse dot ── */
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.5; transform: scale(1.4); }
+        }
+        .pulse-dot { animation: pulse 1.6s ease-in-out infinite; }
+      `}</style>
     </section>
   )
 }
