@@ -11,7 +11,8 @@ const CHILDREN = [
 ]
 
 const ROTATION_RANGE = 15
-const INTERVAL = 100
+const MOUSE_INTERVAL = 100
+const TOUCH_INTERVAL = 80
 
 export default function Memories() {
   const containerRef = useRef(null)
@@ -21,8 +22,10 @@ export default function Memories() {
   const zCounter = useRef(10)
   const prevPos = useRef({ x: -1, y: -1 })
   const pointer = useRef({ x: 0, y: 0 })
+  const hintHiddenRef = useRef(false)
   const [hintHidden, setHintHidden] = useState(false)
   const rafRef = useRef(null)
+  const intervalRef = useRef(MOUSE_INTERVAL)
 
   function buildChild(def, wrapper) {
     if (def.type === 'card') {
@@ -53,17 +56,22 @@ export default function Memories() {
 
     const a1 = wrapper.animate(
       [{ transform: `translate(-50%,-50%) rotate(${rotation}deg) scale(0)` },
-       { transform: `translate(-50%,-50%) rotate(${rotation}deg) scale(1.15)` }],
+      { transform: `translate(-50%,-50%) rotate(${rotation}deg) scale(1.15)` }],
       { duration: 100, easing: 'cubic-bezier(0, 0.55, 0.45, 1)', fill: 'forwards' }
     )
     a1.onfinish = () => {
       const a2 = wrapper.animate(
         [{ transform: `translate(-50%,-50%) rotate(${rotation}deg) scale(1.15)` },
-         { transform: `translate(-50%,-50%) rotate(${rotation}deg) scale(0)` }],
+        { transform: `translate(-50%,-50%) rotate(${rotation}deg) scale(0)` }],
         { duration: 500, easing: 'cubic-bezier(0.55, 0, 1, 0.45)', fill: 'forwards' }
       )
       a2.onfinish = () => wrapper.remove()
     }
+  }
+
+  function spawnNow(pos) {
+    lastAddedTime.current = 0
+    addToTrail(pos)
   }
 
   function loop(time) {
@@ -71,7 +79,7 @@ export default function Memories() {
     const prev = prevPos.current
     if (p.x !== prev.x || p.y !== prev.y) {
       prevPos.current = { ...p }
-      if (time - lastAddedTime.current >= INTERVAL) {
+      if (time - lastAddedTime.current >= intervalRef.current) {
         lastAddedTime.current = time
         const container = containerRef.current
         if (container) {
@@ -90,33 +98,83 @@ export default function Memories() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [])
 
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const hideHint = () => {
+      if (!hintHiddenRef.current) {
+        hintHiddenRef.current = true
+        setHintHidden(true)
+      }
+    }
+
+    const getTouchPos = (e) => {
+      const rect = el.getBoundingClientRect()
+      const t = e.touches[0]
+      return { x: t.clientX - rect.left, y: t.clientY - rect.top }
+    }
+
+    const onTouchStart = (e) => {
+      e.preventDefault()
+      intervalRef.current = TOUCH_INTERVAL
+      hideHint()
+      const pos = getTouchPos(e)
+      pointer.current = pos
+      prevPos.current = { x: -1, y: -1 }
+      spawnNow(pos)                        // spawn immediately on tap
+    }
+
+    const onTouchMove = (e) => {
+      e.preventDefault()
+      pointer.current = getTouchPos(e)
+    }
+
+    const onTouchEnd = () => {
+      prevPos.current = { ...pointer.current }
+    }
+
+    el.addEventListener('touchstart', onTouchStart, { passive: false })
+    el.addEventListener('touchmove', onTouchMove, { passive: false })
+    el.addEventListener('touchend', onTouchEnd, { passive: true })
+
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchmove', onTouchMove)
+      el.removeEventListener('touchend', onTouchEnd)
+    }
+  }, [])
+
   const handleMouseMove = (e) => {
+    intervalRef.current = MOUSE_INTERVAL
     const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
     pointer.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
-    if (!hintHidden) setHintHidden(true)
-  }
-
-  const handleTouchMove = (e) => {
-    e.preventDefault()
-    const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect) return
-    const t = e.touches[0]
-    pointer.current = { x: t.clientX - rect.left, y: t.clientY - rect.top }
+    if (!hintHiddenRef.current) { hintHiddenRef.current = true; setHintHidden(true) }
   }
 
   return (
-    <section id="memories" style={{ background: '#EDEAE4', position: 'relative', overflow: 'hidden', padding: 0, minHeight: '520px', display: 'flex', alignItems: 'center', touchAction: 'none' }}>
+    <section
+      id="memories"
+      style={{
+        background: '#EDEAE4', position: 'relative', overflow: 'hidden',
+        padding: 0, minHeight: '520px', display: 'flex', alignItems: 'center',
+      }}
+    >
       <div
         ref={containerRef}
-        style={{ position: 'relative', width: '100%', maxWidth: '1400px', margin: '0 auto', padding: '80px 6% 90px', minHeight: '520px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        style={{
+          position: 'relative', width: '100%', maxWidth: '1400px',
+          margin: '0 auto', padding: '80px 6% 90px', minHeight: '520px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          touchAction: 'none',
+          userSelect: 'none',
+          cursor: 'crosshair',
+        }}
         onMouseMove={handleMouseMove}
-        onTouchStart={(e) => { e.preventDefault(); if (!hintHidden) setHintHidden(true) }}
-        onTouchMove={handleTouchMove}
       >
         <div id="trail-layer" ref={layerRef} />
 
-        {/* Hint */}
         {!hintHidden && (
           <div className="hint-pulse" style={{
             position: 'absolute', bottom: '1.5rem', left: '6%',
@@ -125,11 +183,11 @@ export default function Memories() {
             color: 'var(--muted)', zIndex: 10, pointerEvents: 'none',
           }}>
             <span style={{ color: 'var(--terra)', fontSize: '0.6rem' }}>✦</span>
-            Move your cursor
+            <span className="hint-desktop">Move your cursor</span>
+            <span className="hint-mobile">Tap &amp; drag to explore</span>
           </div>
         )}
 
-        {/* Title */}
         <div style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 'clamp(4rem, 13vw, 12rem)', fontWeight: 900,
@@ -146,6 +204,15 @@ export default function Memories() {
           Memories
         </div>
       </div>
+
+      <style>{`
+        .hint-mobile  { display: none; }
+        .hint-desktop { display: inline; }
+        @media (hover: none) and (pointer: coarse) {
+          .hint-mobile  { display: inline; }
+          .hint-desktop { display: none; }
+        }
+      `}</style>
     </section>
   )
 }

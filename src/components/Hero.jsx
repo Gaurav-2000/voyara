@@ -52,7 +52,8 @@ export default function Hero({ showToast }) {
             Plan your dream trip from India — honeymoons, family vacations, solo adventures. Everything managed for you, from flights to experiences.
           </p>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}
+            className="hero-btn-group">
             <a href="#destinations" style={{
               background: 'var(--terra)', color: 'white', padding: '0.9rem 2rem', borderRadius: '50px',
               fontSize: '1rem', fontWeight: 600, textDecoration: 'none', display: 'inline-block',
@@ -71,7 +72,8 @@ export default function Hero({ showToast }) {
             >How It Works</a>
           </div>
 
-          <div style={{ fontSize: '0.78rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+          <div style={{ fontSize: '0.78rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}
+            className="hero-trust-badges">
             {['Free cancellation', 'No hidden charges', '24/7 support'].map(t => (
               <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="var(--terra)"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
@@ -80,10 +82,11 @@ export default function Hero({ showToast }) {
             ))}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginTop: '2.5rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginTop: '2.5rem', flexWrap: 'wrap' }}
+            className="hero-stats-row">
             {[['800', '+', 'Destinations'], ['50K', '+', 'Happy Travelers'], ['4.8', '★', 'Avg Rating']].map(([n, s, l]) => (
               <div key={l} style={{ paddingRight: '1.5rem', marginRight: '1.5rem', borderRight: '1px solid rgba(26,18,8,0.12)' }}
-                className="last:border-r-0 last:pr-0 last:mr-0">
+                className="hero-stat-item last:border-r-0 last:pr-0 last:mr-0">
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.9rem', fontWeight: 700, color: 'var(--dark)', lineHeight: 1 }}>
                   {n}<span style={{ color: 'var(--terra)' }}>{s}</span>
                 </div>
@@ -141,14 +144,75 @@ export default function Hero({ showToast }) {
           }
           .hero-image-block { order: -1 !important; }
           .hero-main-img { max-width: 220px !important; }
-          .hero-text-block p, .hero-text-block > div { margin-left: auto !important; margin-right: auto !important; }
+          .hero-text-block p,
+          .hero-trust-badges,
+          .hero-stats-row { margin-left: auto !important; margin-right: auto !important; }
           .hero-badge-1, .hero-badge-2 { display: none !important; }
+
+          /* Center buttons */
+          .hero-btn-group {
+            justify-content: center !important;
+          }
+
+          /* Center trust badges */
+          .hero-trust-badges {
+            justify-content: center !important;
+          }
+
+          /* Stats: keep all 3 on one line */
+          .hero-stats-row {
+            flex-wrap: nowrap !important;
+            justify-content: center !important;
+            width: 100% !important;
+          }
+          .hero-stat-item {
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            padding-right: 1rem !important;
+            margin-right: 1rem !important;
+          }
         }
+
         @media (max-width: 640px) {
           .hero-main-img { max-width: 180px !important; }
+
+          /* Buttons: stack vertically, full width */
+          .hero-btn-group {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0.75rem !important;
+            max-width: 320px !important;
+          }
+          .hero-btn-group a {
+            text-align: center !important;
+          }
+
+          /* Stats: shrink font so all 3 fit in one row */
+          .hero-stat-item > div:first-child {
+            font-size: 1.35rem !important;
+          }
+          .hero-stat-item > div:last-child {
+            font-size: 0.68rem !important;
+          }
+          .hero-stat-item {
+            padding-right: 0.75rem !important;
+            margin-right: 0.75rem !important;
+          }
         }
+
         @media (max-width: 400px) {
           .hero-main-img { max-width: 150px !important; }
+
+          .hero-stat-item > div:first-child {
+            font-size: 1.1rem !important;
+          }
+          .hero-stat-item > div:last-child {
+            font-size: 0.62rem !important;
+          }
+          .hero-stat-item {
+            padding-right: 0.5rem !important;
+            margin-right: 0.5rem !important;
+          }
         }
       `}</style>
     </section>
