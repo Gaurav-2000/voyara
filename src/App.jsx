@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react'
 import Navbar from './components/Navbar'
-import StickyCTA from './components/StickyCTA'
 import Toast from './components/Toast'
 import Hero from './components/Hero'
 import TrustStrip from './components/TrustStrip'
