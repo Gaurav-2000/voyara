@@ -121,9 +121,10 @@ export default function Navbar() {
           background: rgba(26,18,8,0.35);
           backdrop-filter: blur(2px);
           opacity: 0;
+          pointer-events: none;
           transition: opacity 0.35s;
         }
-        .mobile-backdrop.open { opacity: 1; }
+        .mobile-backdrop.open { opacity: 1; pointer-events: auto; }
 
         /* Mobile drawer */
         .mobile-drawer {

@@ -49,16 +49,21 @@ export default function BookTrip({ onBookClick }) {  // ✅ accept prop
           </div>
 
           {/* ✅ CHANGED: anchor → button, opens booking modal */}
+
+          {/* Replace the button block with this */}
           <button
             onClick={onBookClick}
+            onTouchEnd={e => { e.preventDefault(); onBookClick?.() }}
+            className="book-btn"
             style={{
               background: 'var(--terra)', color: 'white', padding: '0.9rem 2rem',
               borderRadius: '50px', fontSize: '1rem', fontWeight: 600,
               border: 'none', cursor: 'pointer', display: 'inline-block',
               marginTop: '2.5rem', transition: 'all 0.3s',
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'transparent',
+              position: 'relative', zIndex: 10,        // ← ensures nothing overlaps it
             }}
-            onMouseEnter={e => { e.target.style.background = 'var(--terra-light)'; e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 25px rgba(212,98,42,0.35)' }}
-            onMouseLeave={e => { e.target.style.background = 'var(--terra)'; e.target.style.transform = ''; e.target.style.boxShadow = '' }}
           >✈ Book Your Trip</button>
         </div>
 

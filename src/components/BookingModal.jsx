@@ -21,14 +21,18 @@ function getFirstDay(year, month) { return new Date(year, month, 1).getDay() }
 
 export default function BookingModal({ isOpen, onClose }) {
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden'
-        } else {
-            document.body.style.overflow = ''
-        }
-        // Cleanup on unmount
+        if (!isOpen) return
+        const scrollY = window.scrollY
+        document.body.style.overflow = 'hidden'
+        document.body.style.top = `-${scrollY}px`   // remembers scroll position
+        document.body.style.position = 'fixed'
+        document.body.style.width = '100%'
         return () => {
             document.body.style.overflow = ''
+            document.body.style.position = ''
+            document.body.style.width = ''
+            document.body.style.top = ''
+            window.scrollTo(0, scrollY)               // restores scroll on close
         }
     }, [isOpen])
     const today = new Date()
@@ -96,6 +100,8 @@ export default function BookingModal({ isOpen, onClose }) {
         <>
             <style>{`
         .bm-overlay {
+        -webkit-overflow-scrolling: touch;
+  touch-action: none;      
           position: fixed; inset: 0; z-index: 2000;
           background: rgba(26,18,8,0.55);
           backdrop-filter: blur(6px);
