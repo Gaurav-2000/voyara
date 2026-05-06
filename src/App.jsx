@@ -41,7 +41,7 @@ export default function App() {
 
       {/* ✅ pass openBooking prop */}
       <Navbar onBookClick={openBooking} />
-      <StickyCTA />
+
 
       {/* ── HERO ── */}
       <Hero showToast={showToast} />
