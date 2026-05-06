@@ -1,12 +1,7 @@
 import React from 'react'
 
 const separators = {
-  afterHero: {
-    src: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600&q=80',
-    alt: 'Couple on a road trip watching sunset',
-    overlayStyle: 'linear-gradient(180deg, rgba(250,247,242,0.6) 0%, transparent 30%, transparent 70%, rgba(250,247,242,0.6) 100%)',
-    height: '340px',
-  },
+
   afterDestinations: {
     src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600&q=80',
     alt: 'Friends exploring a beautiful mountain landscape',

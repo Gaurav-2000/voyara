@@ -46,8 +46,7 @@ export default function App() {
       {/* ── HERO ── */}
       <Hero showToast={showToast} />
 
-      {/* ── FULL-WIDTH IMAGE SEPARATOR after Hero ── */}
-      <ImageSeparator variant="afterHero" />
+
 
       {/* ── TRAVEL MOMENTS STRIP ── */}
       <TravelMomentsStrip />
