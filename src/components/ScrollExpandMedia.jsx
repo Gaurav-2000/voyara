@@ -234,7 +234,7 @@ const ScrollExpandMedia = ({
                         <h2 style={{
                             fontSize: 'clamp(2rem, 6vw, 4.5rem)',
                             fontWeight: 700,
-                            color: '#bfdbfe',
+                            color: '#ffffff',
                             margin: 0,
                             textAlign: 'center',
                             transform: `translateX(-${textTranslateX}vw)`,
@@ -245,7 +245,7 @@ const ScrollExpandMedia = ({
                         <h2 style={{
                             fontSize: 'clamp(2rem, 6vw, 4.5rem)',
                             fontWeight: 700,
-                            color: '#bfdbfe',
+                            color: '#ffffff',
                             margin: 0,
                             textAlign: 'center',
                             transform: `translateX(${textTranslateX}vw)`,
@@ -271,12 +271,12 @@ const ScrollExpandMedia = ({
                         whiteSpace: 'nowrap',
                     }}>
                         {date && (
-                            <p style={{ fontSize: '1.1rem', color: '#bfdbfe', margin: 0, letterSpacing: '0.05em' }}>
+                            <p style={{ fontSize: '1.1rem', color: '#ffffff', margin: 0, letterSpacing: '0.05em' }}>
                                 {date}
                             </p>
                         )}
                         {scrollToExpand && (
-                            <p style={{ fontSize: '0.85rem', color: '#93c5fd', margin: 0, fontWeight: 500 }}>
+                            <p style={{ fontSize: '0.85rem', color: '#ffffff', margin: 0, fontWeight: 500 }}>
                                 {scrollToExpand}
                             </p>
                         )}

@@ -73,6 +73,7 @@ export default function App() {
               lineHeight: window.innerWidth < 768 ? 1.15 : 1.05,
               lineHeight: 1.05,
               fontWeight: 700,
+              fontFamily: 'Playfair Display',
               marginBottom: '2rem',
               color: '#1a1a1a',
               letterSpacing: '-0.05em',
@@ -100,6 +101,7 @@ export default function App() {
               color: '#555',
               width: '100%',
               margin: '0 auto',
+              fontFamily: 'merryweather',
               lineHeight: window.innerWidth < 768 ? 1.7 : 1.9,
               fontWeight: 400,
               letterSpacing: '-0.01em',
@@ -158,7 +160,6 @@ export default function App() {
               'world', 'in',
               'the', 'most',
               'meaningful', 'way.',
-
             ].map((word, i) => (
               <span
                 key={i}

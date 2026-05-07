@@ -6,7 +6,7 @@ const stats = [
   ['99', '%', 'Satisfaction'],
 ]
 
-const VIDEO_SRC = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
+const VIDEO_SRC = '/videos/travelvid.mp4'
 const THUMB = `https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=85`
 
 export default function Experience({ showToast }) {
