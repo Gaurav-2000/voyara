@@ -14,6 +14,8 @@ const ScrollExpandMedia = ({
 }) => {
     const [scrollProgress, setScrollProgress] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
+    const [childrenVisible, setChildrenVisible] = useState(false); // ← NEW
+    const childrenRef = useRef(null); // ← NEW
     const wrapperRef = useRef(null);
 
     useEffect(() => {
@@ -39,6 +41,22 @@ const ScrollExpandMedia = ({
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // ── NEW: IntersectionObserver to trigger children animation ──
+    useEffect(() => {
+        if (!childrenRef.current) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setChildrenVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.15 }
+        );
+        observer.observe(childrenRef.current);
+        return () => observer.disconnect();
+    }, []);
+
     const startW = isMobile ? 280 : 340;
     const startH = isMobile ? 200 : 260;
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1440;
@@ -57,6 +75,52 @@ const ScrollExpandMedia = ({
 
     return (
         <>
+            {/* ── Split text animation keyframes ── */}
+            <style>{`
+                @keyframes sem-word-up {
+                    from { transform: translateY(110%); opacity: 0; }
+                    to   { transform: translateY(0);    opacity: 1; }
+                }
+                .sem-word {
+                    display: inline-block;
+                    overflow: hidden;
+                    vertical-align: bottom;
+                    margin-right: 0.25em;
+                }
+                .sem-word-inner {
+                    display: inline-block;
+                    transform: translateY(110%);
+                    opacity: 0;
+                    transition: none;
+                }
+                .sem-animate .sem-word-inner {
+                    animation: sem-word-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+                }
+                @keyframes sem-fade-up {
+                    from { transform: translateY(20px); opacity: 0; }
+                    to   { transform: translateY(0);    opacity: 1; }
+                }
+                .sem-fade {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                .sem-animate .sem-fade {
+                    animation: sem-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+                }
+                    @media (max-width: 768px) {
+ .sem-word {
+    display: inline-flex;
+    overflow: hidden;
+    vertical-align: bottom;
+    white-space: nowrap;
+}
+
+  .sem-word-inner {
+    will-change: transform, opacity;
+  }
+}
+            `}</style>
+
             {/* ── Tall scroll wrapper: 250vh gives animation room ── */}
             <div ref={wrapperRef} style={{ height: '250vh', position: 'relative' }}>
 
@@ -221,9 +285,13 @@ const ScrollExpandMedia = ({
                 </div>{/* end sticky */}
             </div>{/* end tall wrapper */}
 
-            {/* ── Children render HERE — completely outside and below the animation ── */}
+            {/* ── Children render HERE — with split text animation ── */}
             {children && (
-                <div style={{ width: '100%' }}>
+                <div
+                    ref={childrenRef}
+                    className={childrenVisible ? 'sem-animate' : ''}
+                    style={{ width: '100%' }}
+                >
                     {children}
                 </div>
             )}

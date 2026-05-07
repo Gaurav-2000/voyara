@@ -48,6 +48,8 @@ export default function App() {
       {/* ── HERO ── */}
       <Hero showToast={showToast} />
 
+
+      {/* ── scroll expand ── */}
       <VoyaraScrollSection
         mediaType="image"
         mediaSrc="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1280&q=80"
@@ -56,52 +58,163 @@ export default function App() {
         date="Year Round"
         scrollToExpand="Scroll to explore ↓"
       >
-        <div style={{
-          padding: '5rem 2rem',
-          textAlign: 'center',
-          background: '#fff',
-        }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '1rem', color: '#1a1a1a' }}>
-            Plan Your Dream Trip
+        <div
+          style={{
+            padding: window.innerWidth < 768 ? '3.5rem 1.2rem' : '5rem 2rem',
+            textAlign: 'center',
+            background: 'rgba(250,247,242,0.99)',
+          }}
+        >
+
+          {/* Heading */}
+          <h2
+            style={{
+              fontSize: window.innerWidth < 768 ? '1.8rem' : '5rem',
+              lineHeight: window.innerWidth < 768 ? 1.15 : 1.05,
+              lineHeight: 1.05,
+              fontWeight: 700,
+              marginBottom: '2rem',
+              color: '#1a1a1a',
+              letterSpacing: '-0.05em',
+              width: '100%',
+            }}
+          >
+            {['Plan', 'Your', 'Dream', 'Trip'].map((word, i) => (
+              <span key={i} className="sem-word">
+                <span
+                  className="sem-word-inner"
+                  style={{
+                    animationDelay: `${i * 0.08}s`,
+                  }}
+                >
+                  {word}&nbsp;
+                </span>
+              </span>
+            ))}
           </h2>
-          <p style={{ fontSize: '1.1rem', color: '#555', maxWidth: '100%', margin: '0 auto' }}>
-            From honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for you.
+
+          {/* Paragraph */}
+          <p
+            style={{
+              fontSize: window.innerWidth < 768 ? '1rem' : '1.15rem',
+              color: '#555',
+              width: '100%',
+              margin: '0 auto',
+              lineHeight: window.innerWidth < 768 ? 1.7 : 1.9,
+              fontWeight: 400,
+              letterSpacing: '-0.01em',
+              textAlign: 'center',
+              wordBreak: 'normal',
+              overflowWrap: 'normal',
+            }}
+          >
+            {[
+              'From', 'the', 'snow-capped', 'peaks', 'of', 'the',
+              'Himalayas', 'to', 'the', 'sun-kissed', 'beaches',
+              'of', 'the', 'Maldives,', 'every', 'journey',
+              'begins', 'with', 'a', 'single', 'dream.',
+              'At', 'Voyara,', 'we', 'transform', 'that',
+              'dream', 'into', 'a', 'seamless,',
+              'unforgettable', 'adventure', 'tailored',
+              'just', 'for', 'you.',
+
+              'Whether', "you're", 'planning', 'a',
+              'romantic', 'honeymoon,', 'a',
+              'fun-filled', 'family', 'vacation,',
+              'or', 'a', 'soul-searching', 'solo',
+              'escape,', 'our', 'expert', 'travel',
+              'curators', 'handle', 'every',
+              'detail', 'with', 'care', 'and',
+              'precision.',
+
+              'From', 'luxury', 'stays', 'and',
+              'private', 'transfers', 'to',
+              'handpicked', 'experiences',
+              'and', 'hidden', 'gems,',
+              'we', 'create', 'journeys',
+              'that', 'feel', 'effortless,',
+              'immersive,', 'and',
+              'truly', 'memorable.',
+
+              'With', 'over', '800',
+              'destinations', 'across',
+              'the', 'globe', 'and',
+              '50,000+', 'happy',
+              'travelers,', 'Voyara',
+              'has', 'become',
+              "India's", 'trusted',
+              'travel', 'planning',
+              'partner', 'for',
+              'modern', 'explorers.',
+
+              'No', 'hidden', 'charges,',
+              'no', 'last-minute',
+              'surprises,', 'just',
+              'beautifully', 'crafted',
+              'travel', 'experiences',
+              'designed', 'to',
+              'help', 'you',
+              'discover', 'the',
+              'world', 'in',
+              'the', 'most',
+              'meaningful', 'way.',
+
+            ].map((word, i) => (
+              <span
+                key={i}
+                className="sem-word"
+                style={{
+                  marginRight: '0.12em',
+                }}
+              >
+                <span
+                  className="sem-word-inner"
+                  style={{
+                    animationDelay: `${0.35 + i * 0.02}s`,
+                    display: 'inline-block',
+                  }}
+                >
+                  {word}
+                </span>
+              </span>
+            ))}
           </p>
+
         </div>
       </VoyaraScrollSection>
 
       {/* ── TRAVEL MOMENTS STRIP ── */}
-      <TravelMomentsStrip />
+      < TravelMomentsStrip />
 
       {/* ── TRUST STRIP ── */}
-      <TrustStrip />
+      < TrustStrip />
 
       {/* ── WHY CHOOSE US ── */}
-      <WhyChooseUs />
+      < WhyChooseUs />
 
       {/* ── SERVICES ── */}
-      <Services />
+      < Services />
 
       {/* ── MEMORIES (image trail) ── */}
-      <Memories />
+      < Memories />
 
       {/* ── DESTINATIONS ── */}
-      <Destinations showToast={showToast} />
+      < Destinations showToast={showToast} />
 
       {/* ── FULL-WIDTH IMAGE SEPARATOR between Destinations and Experience ── */}
-      <ImageSeparator variant="afterDestinations" />
+      < ImageSeparator variant="afterDestinations" />
 
       {/* ── EXPERIENCE / VIDEO ── */}
-      <Experience showToast={showToast} />
+      < Experience showToast={showToast} />
 
       {/* ── BOOK TRIP ── ✅ pass openBooking prop */}
-      <BookTrip onBookClick={openBooking} />
+      < BookTrip onBookClick={openBooking} />
 
       {/* ── FULL-WIDTH IMAGE SEPARATOR before Testimonials ── */}
-      <ImageSeparator variant="beforeTestimonials" />
+      < ImageSeparator variant="beforeTestimonials" />
 
       {/* ── TESTIMONIALS ── */}
-      <Testimonials />
+      < Testimonials />
 
       {/* ── TOUR PACKAGES ── */}
       {/* <TourPackages /> */}
