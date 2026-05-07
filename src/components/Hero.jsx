@@ -140,13 +140,29 @@ export default function Hero({ showToast }) {
             grid-template-columns: 1fr !important;
             text-align: center;
             padding: 0 6% !important;
-            gap: 0.5rem !important;
+            gap: 1.5rem !important;
             height: 100% !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: center !important;
           }
-          .hero-image-block { display: none !important; }
+
+          /* Show image on mobile but smaller */
+          .hero-image-block {
+            display: flex !important;
+            justify-content: center !important;
+            order: -1 !important;
+          }
+
+          .hero-main-img {
+            max-width: 220px !important;
+          }
+
+          /* Hide badges on mobile - they overflow */
+          .hero-badge-1, .hero-badge-2 {
+            display: none !important;
+          }
+
           .hero-text-block p,
           .hero-trust-badges,
           .hero-stats-row { margin-left: auto !important; margin-right: auto !important; }
@@ -179,6 +195,10 @@ export default function Hero({ showToast }) {
         }
 
         @media (max-width: 640px) {
+          .hero-main-img {
+            max-width: 180px !important;
+          }
+
           .hero-btn-group {
             flex-direction: column !important;
             align-items: stretch !important;

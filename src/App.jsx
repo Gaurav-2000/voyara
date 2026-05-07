@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { useEffect, useRef, } from 'react';
 import Navbar from './components/Navbar'
 import Toast from './components/Toast'
 import Hero from './components/Hero'
@@ -17,6 +18,7 @@ import { AboutStrip, Partners } from './components/AboutPartners'
 import Subscribe from './components/Subscribe'
 import Footer from './components/Footer'
 import BookingModal from './components/BookingModal'  // ✅ ADD
+import VoyaraScrollSection from './components/ScrollExpandMedia'
 
 export default function App() {
   const [toast, setToast] = useState({ visible: false, message: '' })
@@ -46,7 +48,27 @@ export default function App() {
       {/* ── HERO ── */}
       <Hero showToast={showToast} />
 
-
+      <VoyaraScrollSection
+        mediaType="image"
+        mediaSrc="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1280&q=80"
+        bgImageSrc="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80"
+        title="Discover World"
+        date="Year Round"
+        scrollToExpand="Scroll to explore ↓"
+      >
+        <div style={{
+          padding: '5rem 2rem',
+          textAlign: 'center',
+          background: '#fff',
+        }}>
+          <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '1rem', color: '#1a1a1a' }}>
+            Plan Your Dream Trip
+          </h2>
+          <p style={{ fontSize: '1.1rem', color: '#555', maxWidth: '100%', margin: '0 auto' }}>
+            From honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for youFrom honeymoons to family adventures — every journey curated just for you.
+          </p>
+        </div>
+      </VoyaraScrollSection>
 
       {/* ── TRAVEL MOMENTS STRIP ── */}
       <TravelMomentsStrip />
@@ -80,6 +102,9 @@ export default function App() {
 
       {/* ── TESTIMONIALS ── */}
       <Testimonials />
+
+      {/* ── TOUR PACKAGES ── */}
+      {/* <TourPackages /> */}
 
       {/* ── SOCIAL PROOF ── */}
       <SocialProof />
