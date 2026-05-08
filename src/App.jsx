@@ -36,21 +36,24 @@ export default function App() {
 
   return (
     <>
-      <Toast message={toast.message} visible={toast.visible} />
+      <div style={{ overflowX: 'hidden', width: '100%' }}>
+        <Toast message={toast.message} visible={toast.visible} />
+
+      </div >
 
       {/* ✅ ADD — single modal instance for whole app */}
-      <BookingModal isOpen={bookingOpen} onClose={closeBooking} />
+      < BookingModal isOpen={bookingOpen} onClose={closeBooking} />
 
       {/* ✅ pass openBooking prop */}
-      <Navbar onBookClick={openBooking} />
+      < Navbar onBookClick={openBooking} />
 
 
       {/* ── HERO ── */}
-      <Hero showToast={showToast} />
+      < Hero showToast={showToast} />
 
 
       {/* ── scroll expand ── */}
-      <VoyaraScrollSection
+      < VoyaraScrollSection
         mediaType="image"
         mediaSrc="/images/expandpic.jpg"
         bgImageSrc="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80"
@@ -182,7 +185,7 @@ export default function App() {
           </p>
 
         </div>
-      </VoyaraScrollSection>
+      </VoyaraScrollSection >
 
       {/* ── TRAVEL MOMENTS STRIP ── */}
       < TravelMomentsStrip />
