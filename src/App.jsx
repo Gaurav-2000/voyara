@@ -35,7 +35,6 @@ export default function App() {
   const closeBooking = useCallback(() => setBookingOpen(false), []) // ✅ ADD
 
   return (
-
     <>
       <Toast message={toast.message} visible={toast.visible} />
 
@@ -63,7 +62,7 @@ export default function App() {
           style={{
             padding: window.innerWidth < 768 ? '3.5rem 1.2rem' : '5rem 2rem',
             textAlign: 'center',
-            background: 'rgba(250,247,242,0.99)', s
+            background: 'rgba(250,247,242,0.99)',
           }}
         >
 
