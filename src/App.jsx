@@ -52,7 +52,7 @@ export default function App() {
       {/* ── scroll expand ── */}
       <VoyaraScrollSection
         mediaType="image"
-        mediaSrc="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1280&q=80"
+        mediaSrc="/images/expandpic.jpg"
         bgImageSrc="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80"
         title="Discover World"
         date="Year Round"
