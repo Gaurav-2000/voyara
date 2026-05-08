@@ -122,7 +122,8 @@ const ScrollExpandMedia = ({
             `}</style>
 
             {/* ── Tall scroll wrapper: 250vh gives animation room ── */}
-            <div ref={wrapperRef} style={{ height: '250vh', position: 'relative' }}>
+            <div ref={wrapperRef} style={{ height: '250vh', position: 'relative', overflowX: 'clip' }}>
+
 
                 {/* ── Sticky viewport: stays fixed while parent scrolls ── */}
                 <div style={{
