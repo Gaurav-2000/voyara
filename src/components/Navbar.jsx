@@ -187,7 +187,7 @@ function MobileDrawer({ open, onClose, onBooking }) {
           {/* Backdrop */}
           <motion.div
             key="backdrop"
-            className="fixed inset-0 z-[101] md:hidden"
+            className="fixed inset-0 z-[1001] md:hidden"
             style={{ background: 'rgba(26,18,8,0.48)', backdropFilter: 'blur(3px)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -200,7 +200,7 @@ function MobileDrawer({ open, onClose, onBooking }) {
           <motion.div
             key="drawer"
             className="
-              fixed top-0 right-0 bottom-0 z-[102]
+              fixed top-0 right-0 bottom-0 z-[1002]
               flex flex-col
               w-[min(320px,85vw)]
               overflow-hidden
